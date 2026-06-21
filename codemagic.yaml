@@ -1,0 +1,27 @@
+workflows:
+  default:
+    name: Default Workflow
+    instance_type: mac_mini_m2
+    environment:
+      flutter: stable
+    scripts:
+      - name: Clean everything
+        script: |
+          rm -rf android
+          rm -rf build
+          rm -rf .gradle
+          flutter clean
+          flutter pub get
+      - name: Create fresh Android folder
+        script: |
+          flutter create --platforms=android .
+      - name: Update SDK versions
+        script: |
+          sed -i '' 's/compileSdkVersion [0-9]*/compileSdkVersion 36/' android/app/build.gradle
+          sed -i '' 's/targetSdkVersion [0-9]*/targetSdkVersion 36/' android/app/build.gradle
+          sed -i '' 's/minSdkVersion [0-9]*/minSdkVersion 21/' android/app/build.gradle
+      - name: Build APK
+        script: |
+          flutter build apk --debug
+    artifacts:
+      - build/app/outputs/apk/debug/*.apk
