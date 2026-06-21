@@ -6,11 +6,11 @@ plugins {
 
 android {
     namespace "com.usapp.us_app"
-    compileSdkVersion 34
+    compileSdkVersion 36
     defaultConfig {
         applicationId "com.usapp.us_app"
         minSdkVersion 21
-        targetSdkVersion 34
+        targetSdkVersion 36
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
