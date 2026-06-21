@@ -36,30 +36,14 @@ class UsApp extends StatelessWidget {
             ),
           ),
         ),
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.white,
-          foregroundColor: Color(0xFF1C1C1E),
-          elevation: 0,
-        ),
       ),
       home: const SplashScreen(),
     );
   }
 }
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
-
-  @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
-  @override
-  void initState() {
-    super.initState();
-    // Add your splash screen logic here
-  }
 
   @override
   Widget build(BuildContext context) {
