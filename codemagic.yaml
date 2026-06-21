@@ -9,11 +9,6 @@ workflows:
         script: |
           rm -rf android
           flutter create --platforms=android .
-      - name: Fix SDK versions
-        script: |
-          sed -i '' 's/compileSdkVersion [0-9]*/compileSdkVersion 36/' android/app/build.gradle
-          sed -i '' 's/targetSdkVersion [0-9]*/targetSdkVersion 36/' android/app/build.gradle
-          sed -i '' 's/minSdkVersion [0-9]*/minSdkVersion 21/' android/app/build.gradle
       - name: Build APK
         script: |
           flutter build apk --debug
