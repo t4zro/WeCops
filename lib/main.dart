@@ -137,77 +137,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
     HapticFeedback.mediumImpact();
     setState(() => _loading = true);
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _emailCtrl.text.trim(), password: _passCtrl.text);
-      if (mounted) Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const MainScreen()));
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}'), behavior: SnackBarBehavior.floating));
-    }
-    if (mounted) setState(() => _loading = false);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: FadeTransition(
-              opacity: _fade,
-              child: Column(
-                children: [
-                  const SizedBox(height: 80),
-                  Container(
-                    width: 80, height: 80,
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(colors: [Color(0xFFFF6B6B), Color(0xFFFF477E)]),
-                      borderRadius: BorderRadius.circular(22),
-                    ),
-                    child: const Center(child: Text('U', style: TextStyle(color: Colors.white, fontSize: 38, fontWeight: FontWeight.w800))),
-                  ),
-                  const SizedBox(height: 20),
-                  const Text('Us', style: TextStyle(fontSize: 34, fontWeight: FontWeight.w800, color: Color(0xFF1C1C1E))),
-                  const SizedBox(height: 6),
-                  const Text('Your private space for two', style: TextStyle(fontSize: 15, color: Color(0xFF8E8E93))),
-                  const SizedBox(height: 48),
-                  TextField(
-                    controller: _emailCtrl,
-                    decoration: InputDecoration(hintText: 'Email', filled: true, fillColor: const Color(0xFFF2F2F7), border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide.none)),
-                  ),
-                  const SizedBox(height: 14),
-                  TextField(
-                    controller: _passCtrl,
-                    obscureText: _obscure,
-                    decoration: InputDecoration(
-                      hintText: 'Password', filled: true, fillColor: const Color(0xFFF2F2F7),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide.none),
-                      suffixIcon: IconButton(icon: Icon(_obscure ? Icons.visibility_off : Icons.visibility, color: const Color(0xFF8E8E93)), onPressed: () => setState(() => _obscure = !_obscure)),
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  SizedBox(height: 56, width: double.infinity, child: ElevatedButton(onPressed: _loading ? null : _login, child: _loading ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2.5, color: Colors.white)) : const Text('Log In', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600)))),
-                  const SizedBox(height: 12),
-                  SizedBox(height: 56, width: double.infinity, child: OutlinedButton(onPressed: _loading ? null : _signup, style: OutlinedButton.styleFrom(foregroundColor: const Color(0xFFFF6B6B), side: const BorderSide(color: Color(0xFFFF6B6B)), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))), child: const Text('Create Account', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600)))),
-                  const SizedBox(height: 40),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  @override
-  void dispose() { _ctrl.dispose(); _emailCtrl.dispose(); _passCtrl.dispose(); super.dispose(); }
-}
-
-class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
-  @override
+      await   @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
