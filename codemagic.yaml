@@ -9,12 +9,22 @@ workflows:
         script: |
           rm -rf android
           flutter create --platforms=android .
+      - name: Update Android SDK versions
+        script: |
+          # Update compileSdkVersion to 34
+          sed -i '' 's/compileSdkVersion [0-9]*/compileSdkVersion 34/' android/app/build.gradle
+          # Update targetSdkVersion to 34
+          sed -i '' 's/targetSdkVersion [0-9]*/targetSdkVersion 34/' android/app/build.gradle
+          # Update minSdkVersion to 21
+          sed -i '' 's/minSdkVersion [0-9]*/minSdkVersion 21/' android/app/build.gradle
+          # Update Kotlin version in project-level build.gradle
+          sed -i '' 's/ext.kotlin_version = .*/ext.kotlin_version = "1.9.22"/' android/build.gradle
+      - name: Clean and get dependencies
+        script: |
+          flutter clean
+          flutter pub get
       - name: Build APK
         script: |
-          flutter build apk --debug
+          flutter build apk --debug --verbose
     artifacts:
       - build/app/outputs/apk/debug/*.apk
-    publishing:
-      email:
-        recipients:
-          - vimal.bussinessig@gmail.com
