@@ -1,1 +1,29 @@
-{}
+{
+  "project_info": {
+    "project_number": "1070235960218",
+    "project_id": "wecops",
+    "storage_bucket": "wecops.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1070235960218:android:3002adeb9f2e8429817023",
+        "android_client_info": {
+          "package_name": "com.us.app.us_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDr1m2eD5SPRspKPVxJ8uPfFmGkvzLZSv0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
