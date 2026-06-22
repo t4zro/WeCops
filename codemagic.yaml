@@ -18,24 +18,42 @@ workflows:
         script: |
           rm -f android/build.gradle.kts
           rm -f android/app/build.gradle.kts
-      - name: Force update build.gradle (AGP 8 compatible)
+      - name: Create settings.gradle
         script: |
-          cat > android/app/build.gradle << 'EOF'
-          def localProperties = new Properties()
-          def localPropertiesFile = rootProject.file('local.properties')
-          if (localPropertiesFile.exists()) {
-              localPropertiesFile.withReader('UTF-8') { reader ->
-                  localProperties.load(reader)
+          cat > android/settings.gradle << 'EOF'
+          pluginManagement {
+              def flutterSdkPath = {
+                  def properties = new Properties()
+                  file("local.properties").withInputStream { properties.load(it) }
+                  def flutterSdkPath = properties.getProperty("flutter.sdk")
+                  assert flutterSdkPath != null, "flutter.sdk not set in local.properties"
+                  return flutterSdkPath
+              }
+              settings.ext.flutterSdkPath = flutterSdkPath()
+              includeBuild("${settings.ext.flutterSdkPath}/packages/flutter_tools/gradle")
+              repositories {
+                  google()
+                  mavenCentral()
+                  gradlePluginPortal()
               }
           }
-          def flutterRoot = localProperties.getProperty('flutter.sdk')
-          if (flutterRoot == null) {
-              throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
+          plugins {
+              id "dev.flutter.flutter-plugin-loader" version "1.0.0"
+              id "com.android.application" version "7.3.0" apply false
+              id "org.jetbrains.kotlin.android" version "1.9.22" apply false
           }
-          apply plugin: 'com.android.application'
-          apply plugin: 'kotlin-android'
-          apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+          include ":app"
+          EOF
+      - name: Create app/build.gradle
+        script: |
+          cat > android/app/build.gradle << 'EOF'
+          plugins {
+              id "com.android.application"
+              id "org.jetbrains.kotlin.android"
+              id "dev.flutter.flutter-gradle-plugin"
+          }
           android {
+              namespace "com.us.app.us_app"
               compileSdkVersion 36
               ndkVersion flutter.ndkVersion
               compileOptions {
@@ -65,32 +83,20 @@ workflows:
           flutter {
               source '../..'
           }
+          dependencies {
+              implementation 'com.google.firebase:firebase-analytics'
+          }
           apply plugin: 'com.google.gms.google-services'
           EOF
-      - name: Update settings.gradle
-        script: |
-          cat > android/settings.gradle << 'EOF'
-          include ':app'
-          def localPropertiesFile = new File(rootProject.projectDir, "local.properties")
-          def properties = new Properties()
-          assert localPropertiesFile.exists()
-          localPropertiesFile.withReader("UTF-8") { reader -> properties.load(reader) }
-          def flutterSdkPath = properties.getProperty("flutter.sdk")
-          assert flutterSdkPath != null, "flutter.sdk not set in local.properties"
-          apply from: "$flutterSdkPath/packages/flutter_tools/gradle/app_plugin_loader.gradle"
-          EOF
-      - name: Update project build.gradle
+      - name: Create project build.gradle
         script: |
           cat > android/build.gradle << 'EOF'
           buildscript {
-              ext.kotlin_version = '1.9.22'
               repositories {
                   google()
                   mavenCentral()
               }
               dependencies {
-                  classpath 'com.android.tools.build:gradle:7.3.0'
-                  classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
                   classpath 'com.google.gms:google-services:4.3.15'
               }
           }
@@ -110,6 +116,12 @@ workflows:
           tasks.register("clean", Delete) {
               delete rootProject.buildDir
           }
+          EOF
+      - name: Create local.properties
+        script: |
+          cat > android/local.properties << 'EOF'
+          sdk.dir=/usr/local/share/android-sdk
+          flutter.sdk=/Users/builder/programs/flutter
           EOF
       - name: Build APK
         script: |
