@@ -14,10 +14,8 @@ dependencies:
 
   cupertino_icons: ^1.0.8
 
-  # State Management
   flutter_riverpod: ^2.6.1
 
-  # Firebase
   firebase_core: ^3.15.1
   firebase_auth: ^5.6.2
   cloud_firestore: ^5.6.11
@@ -25,17 +23,14 @@ dependencies:
   firebase_database: ^11.3.9
   firebase_messaging: ^15.2.9
 
-  # Media
   camera: ^0.11.2
   image_picker: ^1.2.0
   video_player: ^2.10.0
   flutter_webrtc: ^1.2.0
 
-  # UI
   cached_network_image: ^3.4.1
   shimmer: ^3.0.0
 
-  # Utilities
   uuid: ^4.5.1
   intl: ^0.20.2
   connectivity_plus: ^6.1.5
@@ -49,7 +44,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^5.0.0
+  flutter_lints: ^4.0.0
 
 flutter:
   uses-material-design: true
