@@ -1,26 +1,20 @@
 workflows:
-  default:
-    name: Flutter Android Build
-    instance_type: mac_mini_m2
+  android-release:
+    name: Android Release
+    max_build_duration: 60
 
     environment:
-      flutter: 3.22.0
+      flutter: stable
 
     scripts:
-      - name: Clean project
+      - name: Get Flutter packages
         script: |
           flutter clean
-          rm -rf build
           flutter pub get
 
-      - name: Recreate Android project
+      - name: Build APK
         script: |
-          rm -rf android
-          flutter create --platforms=android .
-
-      - name: Build Debug APK
-        script: |
-          flutter build apk --debug
+          flutter build apk --release
 
     artifacts:
       - build/app/outputs/flutter-apk/*.apk
