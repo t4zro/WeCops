@@ -1,27 +1,31 @@
-plugins {
-    id "com.android.application"
-    id "kotlin-android"
-    id "dev.flutter.flutter-gradle-plugin"
-}
+buildscript {
+    ext.kotlin_version = '1.9.24'
 
-android {
-    namespace "com.us.app.us_app"
+    repositories {
+        google()
+        mavenCentral()
+    }
 
-    defaultConfig {
-        applicationId "com.us.app.us_app"
-
-        minSdkVersion 24
-        targetSdkVersion 35
-        compileSdkVersion 35
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.5.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.google.gms:google-services:4.4.2'
     }
 }
-    buildTypes {
-        release {
-            signingConfig signingConfigs.debug
-        }
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
     }
 }
-flutter {
-    source '../..'
+
+rootProject.buildDir = "../build"
+
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
 }
-apply plugin: 'com.google.gms.google-services'
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
