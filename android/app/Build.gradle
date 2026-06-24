@@ -5,16 +5,16 @@ plugins {
 }
 
 android {
-    namespace "com.usapp.us_app"
-    compileSdkVersion 36
+    namespace "com.us.app.us_app"
+
     defaultConfig {
-        applicationId "com.usapp.us_app"
-        minSdkVersion 21
-        targetSdkVersion 36
-        versionCode 1
-        versionName "1.0"
-        multiDexEnabled true
+        applicationId "com.us.app.us_app"
+
+        minSdkVersion 24
+        targetSdkVersion 35
+        compileSdkVersion 35
     }
+}
     buildTypes {
         release {
             signingConfig signingConfigs.debug
